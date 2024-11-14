@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot de Apoyo Emocional para Estudiantes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+        }
+        #chatbox {
+            width: 400px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+            border-radius: 8px;
+        }
+        #messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .user {
+            color: blue;
+            font-weight: bold;
+        }
+        .bot {
+            color: green;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin-right: 5px;
+        }
+        button {
+            padding: 10px;
+            border-radius: 4px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="chatbox">
+        <h3>Chatbot de Apoyo Emocional</h3>
+        <div id="messages"></div>
+        <input type="text" id="userInput" placeholder="Escribe tu mensaje aquí..." />
+        <button onclick="sendMessage()">Enviar</button>
+    </div>
+
+    <script>
+        // Diccionario de respuestas para temas emocionales
+        const respuestas = {
+            "ansiedad": "Lamento que te sientas ansioso. La ansiedad puede ser muy desafiante, pero recuerda que no estás solo. Respirar profundamente y tomarse pausas puede ayudar. ¿Te gustaría que te sugiera algunos ejercicios de respiración?",
+            "estrés": "El estrés puede ser agotador. Hacer una lista de tareas y priorizar puede ayudarte a sentirte más en control. También puedes tomar pequeños descansos mientras estudias. ¿Te gustaría algún consejo de organización?",
+            "motivación": "A veces perdemos la motivación, y eso es normal. Trata de recordar tus metas y que cada paso te acerca a ellas. ¿Hay algo específico en lo que necesitas ayuda para motivarte?",
+            "escuchar": "Estoy aquí para escucharte. A veces hablar sobre nuestras preocupaciones ayuda a aliviarlas. ¿Quieres contarme cómo te sientes?",
+            "gracias": "¡De nada! Estoy aquí para ayudarte. Recuerda que siempre puedes regresar a hablar cuando lo necesites.",
+            "adiós": "Adiós y cuídate mucho. Recuerda que es importante descansar y dedicar tiempo a cosas que disfrutas. ¡Hasta luego!"
+        };
+
+        // Función para enviar el mensaje
+        function sendMessage() {
+            const userInput = document.getElementById("userInput").value;
+            if (!userInput) return;
+
+            // Mostrar el mensaje del usuario
+            displayMessage(userInput, "user");
+            document.getElementById("userInput").value = "";  // Limpiar el campo de entrada
+
+            // Generar una respuesta
+            const respuesta = generarRespuesta(userInput);
+            displayMessage(respuesta, "bot");
+        }
+
+        // Genera una respuesta basada en palabras clave
+        function generarRespuesta(mensaje) {
+            mensaje = mensaje.toLowerCase();
+            for (const clave in respuestas) {
+                if (mensaje.includes(clave)) {
+                    return respuestas[clave];
+                }
+            }
+            return "Lo siento, no tengo una respuesta para eso, pero estoy aquí para escucharte. ¿Te gustaría contarme más?";
+        }
+
+        // Mostrar los mensajes en el chat
+        function displayMessage(message, sender) {
+            const messagesDiv = document.getElementById("messages");
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message");
+            messageDiv.innerHTML = `<span class="${sender}">${sender === "user" ? "Tú" : "Bot"}:</span> ${message}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;  // Scroll al final
+        }
+    </script>
+</body>
+</html>
